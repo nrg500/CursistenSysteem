@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class TestController {
     @Timed
-    @RequestMapping("/test")
+    @RequestMapping("/api/test")
     public ResponseEntity<String> getTest(){
         try {
             Thread.sleep(1000);
@@ -20,7 +20,7 @@ public class TestController {
     }
 
     @Timed
-    @RequestMapping("/nina")
+    @RequestMapping("/api/nina")
     public ResponseEntity<String> getNina(){
         try {
             Thread.sleep(2500);

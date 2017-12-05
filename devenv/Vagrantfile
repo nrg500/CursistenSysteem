@@ -1,0 +1,70 @@
+Vagrant.configure(2) do |config|
+
+  config.vm.box = "ubuntu/xenial64"
+
+    config.vm.provider 'virtualbox' do |vb|
+      # Customize the amount of memory on the VM:
+      vb.memory = '4096'
+      # Enable the creation of symlinks on the VirtualBox instance
+      # see http://blog.liip.ch/archive/2012/07/25/vagrant-and-node-js-quick-tip.html
+      vb.customize ['setextradata', :id, 'VBoxInternal2/SharedFoldersEnableSymlinksCreate/vagrant', '1']
+    end
+
+  config.vm.network :forwarded_port, guest: 8080, host: 8080
+
+  config.vm.synced_folder "../../website", "/home/ubuntu/website"
+
+  config.vm.provision "shell", inline: <<-SHELL
+    if [ -e "/etc/vagrant-provisioned" ]; then
+        echo "Vagrant provisioning already completed. Skipping..."
+        exit 0
+    fi
+
+    echo "Starting Vagrant provisioning process..."
+
+    apt-get update
+    apt-get upgrade -y
+
+    ## sudo install build tools
+    sudo apt-get install -y \
+        build-essential \
+        git \
+        curl \
+        wget \
+        vim \
+        apt-transport-https \
+        ca-certificates \
+        software-properties-common
+
+    ## install nodejs
+    sudo curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+
+    ## install docker
+    sudo  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository \
+       "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+       $(lsb_release -cs) \
+       stable"
+    sudo apt-get update
+    sudo apt-get install -y docker-ce
+
+    ## install openjdk
+    sudo apt-get install -y openjdk-8-jdk
+    echo 'export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"' >> /home/ubuntu/.profile
+
+    ## install maven
+    sudo wget 'http://mirrors.supportex.net/apache/maven/maven-3/3.5.2/binaries/apache-maven-3.5.2-bin.tar.gz'
+    tar xzvf apache-maven-3.5.2-bin.tar.gz
+    sudo mv apache-maven-3.5.2 /opt/apache-maven-3.5.2
+    sudo rm apache-maven-3.5.2-bin.tar.gz
+    echo 'export PATH="/opt/apache-maven-3.5.2/bin:$PATH"' >> /home/ubuntu/.profile
+
+
+    # Done
+    touch /etc/vagrant-provisioned
+
+    echo "--------------------------------------------------"
+    echo "Your vagrant instance is ready"
+  SHELL
+end

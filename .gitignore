@@ -31,7 +31,9 @@ nbdist/
 /dist/
 bazel-*
 e2e_test.*
+devenv/.vagrant
 node_modules
+devenv/ubuntu-xenial-16.04-cloudimg-console.log
 bower_components
 tools/gulp-tasks/cldr/cldr-data/
 
@@ -57,3 +59,5 @@ yarn-error.log
 
 # rollup-test output
 /modules/rollup-test/dist/
+backend/src/main/resources/static/
+backend/src/main/resources/templates/
