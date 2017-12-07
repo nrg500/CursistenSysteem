@@ -15,6 +15,7 @@
 	</parent>
 
 	<build>
+	<sourceDirectory>.</sourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
@@ -24,7 +25,7 @@
 				<configuration>
 					<nodeVersion>v8.9.1</nodeVersion>
 					<npmVersion>5.5.1</npmVersion>
-					<workingDirectory>src/main/frontend</workingDirectory>
+					<workingDirectory>.</workingDirectory>
 				</configuration>
 
 				<executions>
