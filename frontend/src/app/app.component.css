@@ -1,0 +1,8 @@
+.centered {
+  margin: auto;
+}
+.group:after {
+  content: "";
+  display: table;
+  clear: both;
+}

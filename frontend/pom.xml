@@ -37,18 +37,10 @@
 					</execution>
 
 					<execution>
-						<!-- need the no bin links because vagrant on top of windows doesn't deal well with symlinks -->
 						<id>npm install</id>
 						<goals>
 							<goal>npm</goal>
 						</goals>
-						<configuration>
-							<!-- optional: The default argument is actually
-                            "install", so unless you need to run some other npm command,
-                            you can remove this whole <configuration> section.
-                            -->
-							<arguments>install --no-bin-links</arguments>
-						</configuration>
 					</execution>
 
 					<execution>
