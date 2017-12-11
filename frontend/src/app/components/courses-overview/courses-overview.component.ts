@@ -19,7 +19,7 @@ export class CoursesOverviewComponent implements OnInit, OnDestroy {
   constructor(private http: HttpClient) {
     this.interval = Observable.interval(5000)
       .switchMap(() =>
-        http.get('http://localhost:8080/api/course-instances'))
+        http.get('/api/course-instances'))
       .subscribe(
         (data: CourseInstance[]) => {
           data.map(ci => ci.startDate = new Date(ci.startDate));
@@ -29,7 +29,7 @@ export class CoursesOverviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.initialGet = this.http.get('http://localhost:8080/api/course-instances')
+    this.initialGet = this.http.get('/api/course-instances')
       .subscribe(
         (data: CourseInstance[]) => {
           data.map(ci => ci.startDate = new Date(ci.startDate));

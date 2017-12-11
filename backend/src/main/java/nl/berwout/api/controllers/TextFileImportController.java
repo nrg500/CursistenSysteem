@@ -2,6 +2,7 @@ package nl.berwout.api.controllers;
 
 import nl.berwout.api.exceptions.InvalidFileFormatException;
 import nl.berwout.api.models.CourseInstance;
+import nl.berwout.api.models.DateCodeKey;
 import nl.berwout.api.models.FileImport;
 import nl.berwout.api.repositories.CourseInstanceRepository;
 import nl.berwout.api.services.TextFileParser;
@@ -33,6 +34,7 @@ public class TextFileImportController {
     public ResponseEntity<Collection<CourseInstance>> postNewFile(@RequestBody FileImport fileImport) throws InvalidFileFormatException{
         List<CourseInstance> courseInstances = textFileparser.parse(fileImport.getFileContents());
         List<CourseInstance> uniqueInstances = removeDuplicates(courseInstances);
+        courseInstanceRepository.save(uniqueInstances);
         return new ResponseEntity<>(uniqueInstances, HttpStatus.CREATED);
     }
 
@@ -43,18 +45,15 @@ public class TextFileImportController {
                         Collectors.toMap(
                                 courseInstance -> new DateCodeKey(courseInstance.getStartDate(), courseInstance.getCourseCode())
                                 , Function.identity()
-                                //merge function to handle duplicate keys.
+                                //merge strategy to handle duplicate keys.
                                 , (oldValue, newValue) -> oldValue
                         )
                 );
-        List<CourseInstance> checkedUniqueInstances =
-                uniqueMap.values().stream()
-                        .filter(courseInstance -> {
-                            List<CourseInstance> duplicates =
-                                    courseInstanceRepository.findByStartDateAndCourseCode(courseInstance.getStartDate(), courseInstance.getCourseCode());
-                            return duplicates.size() == 0;
-                        }).collect(Collectors.toList());
-        return checkedUniqueInstances;
-
+        return uniqueMap.values().stream()
+                .filter(courseInstance -> {
+                    List<CourseInstance> duplicates =
+                            courseInstanceRepository.findByStartDateAndCourseCode(courseInstance.getStartDate(), courseInstance.getCourseCode());
+                    return duplicates.size() == 0;
+                }).collect(Collectors.toList());
     }
 }

@@ -4,6 +4,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 
@@ -17,9 +18,9 @@ public class VersioningSteps extends SpringIntegrationTest {
 
     private ResponseEntity<String> response;
 
-    @When("^the client calls /version$")
+    @When("^the client calls /api/version$")
     public void the_client_issues_GET_version() throws Throwable{
-        response = restTemplate.getForEntity("/version", String.class);
+        response = restTemplate.getForEntity("/api/version", String.class);
     }
 
     @Then("^the client receives status code of (\\d+)$")
@@ -32,4 +33,6 @@ public class VersioningSteps extends SpringIntegrationTest {
     public void the_client_receives_server_version_body(String expectedVersion) throws Throwable {
         assertThat(response.getBody(), is(expectedVersion));
     }
+
+
 }

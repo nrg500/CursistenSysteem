@@ -21,6 +21,8 @@ public class TextFileParser {
 
     private List<Predicate<String>> predicateList;
 
+    //ideally we would want to hand this parser a list of predicates,
+    // so it can be used in a more generic way, but right now it only has one use so it's fine.
     public TextFileParser(){
         this.predicateList = new ArrayList<>();
         this.predicateList.add(titel);
@@ -49,6 +51,7 @@ public class TextFileParser {
         return result;
     }
 
+    //this function is used to split on newlines with varying newline syntax (\n\r, \n or \r, doesn't matter).
     private List<String> splitInstances(String toSplit){
         List<String> result = new ArrayList<>();
         String[] lines = toSplit.split(System.getProperty("line.separator"));

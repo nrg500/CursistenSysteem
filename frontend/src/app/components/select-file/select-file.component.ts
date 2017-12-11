@@ -45,7 +45,7 @@ export class SelectFileComponent implements OnDestroy{
     }
     this.expectedImports = split.length;
     console.log(`expected imports: ${this.expectedImports}`);
-    this.importPost = this.http.post("http://localhost:8080/api/file-import", this.model)
+    this.importPost = this.http.post("/api/file-import", this.model)
       .subscribe(
         (data: Array<CourseInstance>) => {
           this.actualImports = data.length;
@@ -57,8 +57,12 @@ export class SelectFileComponent implements OnDestroy{
           console.log(data);
       },
         (err: HttpErrorResponse) => {
-          this.errorMessage = err.error;
-          console.log(err.error);
+          if(typeof err.error === "string") {
+            this.errorMessage = err.error;
+          } else{
+            //relevant if server doesn't answer.
+            this.errorMessage = "Er is iets misgegaan, probeer het later nog een keer.";
+          }
         }
       );
   }

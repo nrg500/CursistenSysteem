@@ -1,4 +1,4 @@
-package nl.berwout.api.controllers;
+package nl.berwout.api.models;
 
 import java.util.Date;
 
