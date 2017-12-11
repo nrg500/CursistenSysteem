@@ -23,6 +23,6 @@ public class CourseController {
     @CrossOrigin
     @RequestMapping(value="/api/course-instances", method= RequestMethod.GET)
     public ResponseEntity<List<CourseInstance>> getCourseInstances(){
-        return new ResponseEntity<List<CourseInstance>>(courseInstanceRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(courseInstanceRepository.findAll(), HttpStatus.OK);
     }
 }

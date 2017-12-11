@@ -15,6 +15,8 @@ export class SelectFileComponent implements OnDestroy{
   private file : File = null;
   private successMessage : string;
   private errorMessage : string;
+  private expectedImports : number;
+  private actualImports : number;
 
   private importPost : ISubscription;
   constructor(private http: HttpClient){}
@@ -37,10 +39,21 @@ export class SelectFileComponent implements OnDestroy{
   submit() {
     this.successMessage = null;
     this.errorMessage = null;
+    let split : string[] = this.model.fileContents.split(/^\s[\r\n]/gm);
+    if(split[split.length] === ""){
+      split.splice(-1,1);
+    }
+    this.expectedImports = split.length;
+    console.log(`expected imports: ${this.expectedImports}`);
     this.importPost = this.http.post("http://localhost:8080/api/file-import", this.model)
       .subscribe(
         (data: Array<CourseInstance>) => {
-        this.successMessage = `Er zijn ${data.length} cursusinstanties toegevoegd.`;
+          this.actualImports = data.length;
+          console.log(`actual imports: ${this.actualImports}`);
+          this.successMessage = `Er zijn ${data.length} cursusinstanties toegevoegd.`;
+          if(this.actualImports != this.expectedImports){
+            this.successMessage += `\nDaarnaast zijn er ${this.expectedImports - this.actualImports} duplicaten gevonden.`;
+          }
           console.log(data);
       },
         (err: HttpErrorResponse) => {

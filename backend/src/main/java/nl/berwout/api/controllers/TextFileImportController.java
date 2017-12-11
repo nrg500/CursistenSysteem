@@ -10,7 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RestController
 public class TextFileImportController {
@@ -26,9 +30,31 @@ public class TextFileImportController {
 
     @CrossOrigin
     @RequestMapping(value="/api/file-import", method=RequestMethod.POST)
-    public ResponseEntity<List<CourseInstance>> postNewFile(@RequestBody FileImport fileImport) throws InvalidFileFormatException{
+    public ResponseEntity<Collection<CourseInstance>> postNewFile(@RequestBody FileImport fileImport) throws InvalidFileFormatException{
         List<CourseInstance> courseInstances = textFileparser.parse(fileImport.getFileContents());
-        courseInstanceRepository.save(courseInstances);
-        return new ResponseEntity<>(courseInstances, HttpStatus.CREATED);
+        List<CourseInstance> uniqueInstances = removeDuplicates(courseInstances);
+        return new ResponseEntity<>(uniqueInstances, HttpStatus.CREATED);
+    }
+
+    //removes duplicates by first converting to map and then finding duplicates in the database and filtering the list.
+    private List<CourseInstance> removeDuplicates(List<CourseInstance> inputList){
+        Map<DateCodeKey, CourseInstance> uniqueMap = inputList.stream()
+                .collect(
+                        Collectors.toMap(
+                                courseInstance -> new DateCodeKey(courseInstance.getStartDate(), courseInstance.getCourseCode())
+                                , Function.identity()
+                                //merge function to handle duplicate keys.
+                                , (oldValue, newValue) -> oldValue
+                        )
+                );
+        List<CourseInstance> checkedUniqueInstances =
+                uniqueMap.values().stream()
+                        .filter(courseInstance -> {
+                            List<CourseInstance> duplicates =
+                                    courseInstanceRepository.findByStartDateAndCourseCode(courseInstance.getStartDate(), courseInstance.getCourseCode());
+                            return duplicates.size() == 0;
+                        }).collect(Collectors.toList());
+        return checkedUniqueInstances;
+
     }
 }
