@@ -29,7 +29,6 @@ public class TextFileImportController {
         this.courseInstanceRepository = courseInstanceRepository;
     }
 
-    @CrossOrigin
     @RequestMapping(value="/api/file-import", method=RequestMethod.POST)
     public ResponseEntity<Collection<CourseInstance>> postNewFile(@RequestBody FileImport fileImport) throws InvalidFileFormatException{
         List<CourseInstance> courseInstances = textFileparser.parse(fileImport.getFileContents());

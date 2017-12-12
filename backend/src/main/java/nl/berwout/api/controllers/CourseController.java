@@ -24,13 +24,6 @@ public class CourseController {
         this.dateService = dateService;
     }
 
-    @CrossOrigin
-    @RequestMapping(value="/api/course-instances", method=RequestMethod.GET)
-    public ResponseEntity<List<CourseInstance>> getCourseInstances(){
-        return new ResponseEntity<>(courseInstanceRepository.findAll(), HttpStatus.OK);
-    }
-
-    @CrossOrigin
     @RequestMapping(value="/api/course-instances/{year}/{week}", method=RequestMethod.GET)
     public ResponseEntity<List<CourseInstance>> getCourseInstancesForYearAndWeek(@PathVariable Integer year,@PathVariable Integer week) throws InvalidInputException{
         if(year > 2200 || year < 1990){
