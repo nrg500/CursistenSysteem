@@ -7,8 +7,7 @@ import { AppComponent } from './app.component';
 import {SelectFileComponent} from "./components/select-file/select-file.component";
 import {CoursesOverviewComponent} from "./components/courses-overview/courses-overview.component";
 import {CourseInstanceComponent} from "./components/courses-overview/course-instance/course-instance.component";
-
-
+import {AppRoutingModule} from "./app-routing.module";
 
 @NgModule({
   declarations: [
@@ -18,11 +17,12 @@ import {CourseInstanceComponent} from "./components/courses-overview/course-inst
     CourseInstanceComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [ ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

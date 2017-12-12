@@ -28,6 +28,16 @@ export class CoursesOverviewComponent implements OnInit, OnDestroy {
         (err: HttpErrorResponse) => console.log(err.error));
   }
 
+  getWeekNumber(date: Date){
+    let d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    let dayNum = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+    let yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+    //86400000 is full day, so we calculate amount of days + 1
+    // (because of yearStart being the first), divided by 7 to get weeks.
+    return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1)/7)
+  };
+
   ngOnInit() {
     this.initialGet = this.http.get('/api/course-instances')
       .subscribe(
