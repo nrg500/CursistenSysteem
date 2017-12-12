@@ -4,7 +4,6 @@ import nl.berwout.api.exceptions.InvalidInputException;
 import nl.berwout.api.models.CourseInstance;
 import nl.berwout.api.repositories.CourseInstanceRepository;
 import nl.berwout.api.services.DateService;
-import org.omg.CORBA.DynAnyPackage.Invalid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,17 +33,15 @@ public class CourseController {
     @CrossOrigin
     @RequestMapping(value="/api/course-instances/{year}/{week}", method=RequestMethod.GET)
     public ResponseEntity<List<CourseInstance>> getCourseInstancesForYearAndWeek(@PathVariable Integer year,@PathVariable Integer week) throws InvalidInputException{
-
-        if(year > 2100 || year < 1990){
-            throw new InvalidInputException("Year must be between 1990 and 2100.");
+        if(year > 2200 || year < 1990){
+            throw new InvalidInputException("Het jaar moet tussen 1990 en 2200 liggen.");
         }
         if(week < 1 || week > 54){
-            throw new InvalidInputException("Week must be between 1 and 54");
+            throw new InvalidInputException("De week moet tussen de 1 en 54 liggen.");
         }
         Date[] dates = dateService.getWeekStartAndEnd(year, week);
-        //als de begin en einddatum in het nieuwe jaar vallen, is het ook niet in orde.
         if((!dateService.dateInCurrentYear(dates[0], year)) && (!dateService.dateInCurrentYear(dates[1], year))){
-            throw new InvalidInputException("Week must be in the current year");
+            throw new InvalidInputException("De week moet in het huidige jaar vallen.");
         }
         return new ResponseEntity<>(courseInstanceRepository.findByStartDateBetween(dates[0], dates[1]), HttpStatus.OK);
     }

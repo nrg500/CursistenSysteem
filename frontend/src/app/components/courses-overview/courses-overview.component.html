@@ -2,14 +2,14 @@
   <h2>Cursusoverzicht</h2>
   <div class="row">
     <div class="col-sm-3">
-      <button class="btn"><< Vorige week</button>
+      <button class="btn" (click)="previousWeek()"><< Vorige week</button>
     </div>
     <div class="col-sm-3 form-group-sm">
       <div class="col-sm-3">
         <label for="week-number">Week: </label>
       </div>
       <div class="col-sm-9">
-        <input type="number" name="week-number" class="form-control width75" [(ngModel)]="week" id="week-number">
+        <input type="number" name="week-number" class="form-control width100" [(ngModel)]="week" (change)="onChange()" id="week-number">
       </div>
     </div>
     <div class="col-sm-3 form-group-sm">
@@ -17,12 +17,16 @@
         <label for="year-number">Jaar: </label>
       </div>
       <div class="col-sm-9">
-        <input type="number" name="year-number" class="form-control width100" [(ngModel)]="year" id="year-number">
+        <input type="number" name="year-number" class="form-control width100" [(ngModel)]="year" (change)="onChange()" id="year-number">
       </div>
     </div>
     <div class="col-sm-3">
-    <button class="btn">Volgende week >></button>
+    <button class="btn" (click)="nextWeek()">Volgende week >></button>
     </div>
+  </div>
+
+  <div class="row">
+    <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
   </div>
 
   <table class="table">

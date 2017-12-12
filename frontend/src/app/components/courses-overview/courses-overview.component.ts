@@ -13,9 +13,10 @@ import {ISubscription} from "rxjs/Subscription";
 export class CoursesOverviewComponent implements OnInit, OnDestroy {
   private sortedCourseInstances: Array<CourseInstance> = [];
   private interval : ISubscription;
-  private initialGet : ISubscription;
+  private getRequest : ISubscription;
+  private errorMessage : string;
   private year: number;
-  private week : number;
+  private week: number;
 
   constructor(private http: HttpClient) {
     this.interval = Observable.interval(5000)
@@ -27,6 +28,8 @@ export class CoursesOverviewComponent implements OnInit, OnDestroy {
           this.sortedCourseInstances = data.sort((ci1, ci2) => this.sortCourseInstancesByDate(ci2.startDate, ci1.startDate));
         },
         (err: HttpErrorResponse) => console.log(err.error));
+    this.week = this.getWeekNumber(new Date());
+    this.year = new Date().getUTCFullYear();
   }
 
   getWeekNumber(date: Date){
@@ -39,16 +42,66 @@ export class CoursesOverviewComponent implements OnInit, OnDestroy {
     return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1)/7)
   };
 
-  ngOnInit() {
-    this.week = this.getWeekNumber(new Date());
-    this.year = new Date().getUTCFullYear();
-    this.initialGet = this.http.get(`/api/course-instances/${this.year}/${this.week}`)
+  ngOnInit(){
+    this.getInstances();
+  }
+
+  getInstances(){
+    if(this.getRequest){
+      this.getRequest.unsubscribe();
+    }
+    this.getRequest = this.http.get(`/api/course-instances/${this.year}/${this.week}`)
       .subscribe(
         (data: CourseInstance[]) => {
           data.map(ci => ci.startDate = new Date(ci.startDate));
           this.sortedCourseInstances = data.sort((ci1, ci2) => this.sortCourseInstancesByDate(ci2.startDate, ci1.startDate));
         },
-        (err: HttpErrorResponse) => console.log(err.error));
+        (err: HttpErrorResponse) => {
+          if(typeof err.error === "string") {
+            this.errorMessage = err.error;
+          } else{
+            //relevant if server doesn't answer.
+            this.errorMessage = "Er is iets misgegaan, probeer het later nog een keer.";
+          }
+        }
+      );
+    }
+  onChange() {
+    this.errorMessage = "";
+    this.getInstances();
+  }
+
+
+  weeksInYear(year) {
+    var month = 11, day = 31, week;
+    // Find week that 31 Dec is in. If is first week, reduce date until
+    // get previous week.
+    do {
+      let d : Date = new Date(year, month, day--);
+      week = this.getWeekNumber(d);
+    } while (week == 1);
+
+    return week;
+  }
+  previousWeek(){
+    if(this.week === 1){
+      this.week = this.weeksInYear(--this.year);
+    } else{
+      this.week--;
+    }
+    this.errorMessage = "";
+    this.getInstances();
+  }
+
+  nextWeek(){
+    if(this.week === this.weeksInYear(this.year)){
+      this.week = 1;
+      this.year++;
+    } else{
+      this.week++;
+    }
+    this.errorMessage = "";
+    this.getInstances();
   }
 
   sortCourseInstancesByDate(a : Date, b : Date){
@@ -57,6 +110,6 @@ export class CoursesOverviewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.interval.unsubscribe();
-    this.initialGet.unsubscribe();
+    this.getRequest.unsubscribe();
   }
 }
