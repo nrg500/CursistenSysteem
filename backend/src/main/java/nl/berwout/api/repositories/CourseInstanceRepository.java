@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface CourseInstanceRepository extends JpaRepository<CourseInstance, Integer> {
     List<CourseInstance> findByStartDateAndCourseCode(Date startDate, String courseCode);
+    List<CourseInstance> findByStartDateBetween(Date startOfWeek, Date endOfWeek);
 }

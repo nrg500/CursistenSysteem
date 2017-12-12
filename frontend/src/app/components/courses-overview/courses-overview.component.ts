@@ -12,14 +12,15 @@ import {ISubscription} from "rxjs/Subscription";
 
 export class CoursesOverviewComponent implements OnInit, OnDestroy {
   private sortedCourseInstances: Array<CourseInstance> = [];
-
   private interval : ISubscription;
   private initialGet : ISubscription;
+  private year: number;
+  private week : number;
 
   constructor(private http: HttpClient) {
     this.interval = Observable.interval(5000)
       .switchMap(() =>
-        http.get('/api/course-instances'))
+        http.get(`/api/course-instances/${this.year}/${this.week}`))
       .subscribe(
         (data: CourseInstance[]) => {
           data.map(ci => ci.startDate = new Date(ci.startDate));
@@ -39,7 +40,9 @@ export class CoursesOverviewComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
-    this.initialGet = this.http.get('/api/course-instances')
+    this.week = this.getWeekNumber(new Date());
+    this.year = new Date().getUTCFullYear();
+    this.initialGet = this.http.get(`/api/course-instances/${this.year}/${this.week}`)
       .subscribe(
         (data: CourseInstance[]) => {
           data.map(ci => ci.startDate = new Date(ci.startDate));
