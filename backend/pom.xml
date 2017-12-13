@@ -71,23 +71,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- aspect oriented programming dependencies -->
-		<dependency>
-			<groupId>org.aspectj</groupId>
-			<artifactId>aspectjweaver</artifactId>
-			<version>1.8.12</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
-			<version>4.3.12.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aspects</artifactId>
-			<version>4.3.12.RELEASE</version>
-		</dependency>
-
 		<!-- dependency to my own webproject so it gets included in the JAR -->
 		<dependency>
 			<groupId>nl.berwout.website</groupId>
@@ -103,6 +86,7 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- need this because newest version of chromedriver doesn't work with this version of selenium -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
