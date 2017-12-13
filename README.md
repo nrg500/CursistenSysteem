@@ -36,8 +36,8 @@ spring.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
 spring.jpa.hibernate.ddl-auto = create-drop
 ```
 
-We gebruiken hier create-drop, omdat de applicatie nog in ontwikkeling is.
-Mocht de applicatie ooit in productie genomen worden, haal deze regel dan weg.
+We gebruiken hier create-drop om gemakkelijker te kunnen ontwikkelen.
+Mocht je dit niet willen, dan kun je die natuurlijk weglaten.
 
 ### Applicatie setup:
 Zorg ervoor dat je maven en JDK op je computer hebt:
