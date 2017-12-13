@@ -29,4 +29,11 @@ public class DateService {
         cal.setTime(date);
         return year == cal.get(Calendar.YEAR);
     }
+
+    public Date addXDaysToDate(Date date, int days){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days);
+        return cal.getTime();
+    }
 }

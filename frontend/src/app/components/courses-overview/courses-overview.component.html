@@ -1,34 +1,27 @@
 <div class="container">
   <h2>Cursusoverzicht</h2>
-  <div class="row">
-    <div class="col-sm-3">
-      <button class="btn" (click)="previousWeek()"><< Vorige week</button>
+  <form class="form-horizontal">
+    <div class="form-group col-sm-3">
+      <button class="btn btn-primary" (click)="previousWeek()"><< Vorige week</button>
     </div>
-    <div class="col-sm-3 form-group-sm">
-      <div class="col-sm-3">
-        <label for="week-number">Week: </label>
-      </div>
+    <div class="form-group col-sm-3">
+        <label class="col-sm-3 control-label" for="week-number">Week: </label>
       <div class="col-sm-9">
         <input type="number" name="week-number" class="form-control width100" [(ngModel)]="week" (change)="onChange()" id="week-number">
       </div>
     </div>
-    <div class="col-sm-3 form-group-sm">
-      <div class="col-sm-3">
-        <label for="year-number">Jaar: </label>
-      </div>
+    <div class="form-group col-sm-3">
+        <label class="col-sm-3 control-label" for="year-number">Jaar: </label>
       <div class="col-sm-9">
         <input type="number" name="year-number" class="form-control width100" [(ngModel)]="year" (change)="onChange()" id="year-number">
       </div>
     </div>
-    <div class="col-sm-3">
-    <button class="btn" (click)="nextWeek()">Volgende week >></button>
+    <div class="form-group col-sm-3 pull-right">
+     <button class="btn btn-primary
+     pull-right" (click)="nextWeek()">Volgende week >></button>
     </div>
-  </div>
-
-  <div class="row">
-    <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
-  </div>
-
+    <div class="alert alert-danger col-sm-12" *ngIf="errorMessage">{{errorMessage}}</div>
+  </form>
   <table class="table">
     <thead>
     <tr>

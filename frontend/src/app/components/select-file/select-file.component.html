@@ -1,38 +1,35 @@
 <div class="container">
-  <form class="col-sm-6" #fileImportForm="ngForm" (ngSubmit)="submit()">
-    <h2>Selecteer a.u.b. een file om in te voeren</h2>
+  <form class="col-sm-6" [formGroup]="form" #fileImportForm="ngForm" (ngSubmit)="submit(form)">
+    <h2 class="col-sm-8">Selecteer a.u.b. een file om in te voeren</h2>
     <div class="form-group row">
-      <div class="col-sm-4">
-        <label for="file">Bestand</label>
-      </div>
       <div class="col-sm-8">
         <input type="file" name="file" class="form-control" (change)="onChange($event)" id="file">
       </div>
     </div>
-
     <div class="form-group row">
-      <div class="col-sm-4">
-        <label for="start-date">Startdatum</label>
-      </div>
-      <div class="col-sm-8">
-        <input type="text" name="start-date" class="form-control" [(ngModel)]="model.startDate" id="start-date">
-      </div>
+        <mat-form-field class="col-sm-8">
+          <input matInput [matDatepicker]="startDatePicker" placeholder="Startdatum" formControlName="startDate">
+          <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+          <mat-datepicker #startDatePicker></mat-datepicker>
+        </mat-form-field>
     </div>
-
     <div class="form-group row">
-      <div class="col-sm-4">
-        <label for="end-date">Einddatum</label>
-      </div>
+      <mat-form-field class="col-sm-8">
+        <input matInput [matDatepicker]="endDatePicker" placeholder="Einddatum" formControlName="endDate">
+        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #endDatePicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="form-group row">
       <div class="col-sm-8">
-        <input type="text" name="end-date" class="form-control" [(ngModel)]="model.endDate" id="end-date">
+        <button type="submit" id="select-file-submit" class="btn btn-success pull-right">Invoeren</button>
       </div>
     </div>
-    <div class="row">
-      <button type="submit" id="select-file-submit" class="btn btn-success pull-right">Invoeren</button>
-    </div>
-    <div class="row">
-      <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
-      <div class="alert alert-success" *ngIf="successMessage">{{successMessage}}</div>
+    <div class="form-group row">
+      <div class="col-sm-8">
+        <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+        <div class="alert alert-success" *ngIf="successMessage">{{successMessage}}</div>
+      </div>
     </div>
   </form>
 </div>
