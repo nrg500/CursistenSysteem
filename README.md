@@ -5,6 +5,7 @@ hieronder volgt een kleine handleiding om de applicatie te gebruiken:
 Start SQL Server
 
 In SQL Server configuration manager, zet TCP connections aan en zorg dat die op de juiste poort binnenkomen.
+
 https://technet.microsoft.com/en-us/library/hh231672(v=sql.110).aspx
 
 In SQL Server management studio, navigeer naar de connectie in object explorer en klik met de rechtermuisknop op properties.
@@ -41,16 +42,20 @@ Mocht je dit niet willen, dan kun je die natuurlijk weglaten.
 
 ### Applicatie setup:
 Zorg ervoor dat je maven en JDK op je computer hebt:
+
 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+
 https://maven.apache.org/install.html
 
 navigeer in een cmd window naar de root folder van het project en doe een `mvn clean install`
 
 navigeer vervolgens naar de backend folder en doe een `mvn spring-boot:run`
 
+De applicatie draait nu op localhost:8080
 
 ### Overige opmerkingen
 Voordat de applicatie gebruikt gaat worden, moet eerst ook nog Angular in de production mode gezet worden, zie:
+
 https://stackoverflow.com/questions/35721206/how-to-enable-production-mode-in-angular-2
 
-Veel plezier met de applicatie!
+De applicatie draait nu op localhost:8080
