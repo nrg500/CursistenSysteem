@@ -4,7 +4,7 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {CourseInstance} from "../../models/course-instance";
 import {ISubscription} from "rxjs/Subscription";
 import {MAT_DATE_FORMATS} from "@angular/material";
-import {Form, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 export const MY_FORMATS = {
   parse: {

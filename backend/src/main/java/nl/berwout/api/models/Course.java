@@ -3,9 +3,9 @@ package nl.berwout.api.models;
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy=InheritanceType.JOINED)
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class Course {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy=GenerationType.TABLE)
     private int id;
     private String courseCode;
     private byte duration;
@@ -19,13 +19,13 @@ public class Course {
         this.duration = duration;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     public byte getDuration() {
         return duration;
@@ -45,5 +45,13 @@ public class Course {
 
     public String getCourseCode() {
         return courseCode;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

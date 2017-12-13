@@ -1,7 +1,6 @@
 package nl.berwout.api.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import nl.berwout.api.services.CustomJsonDeserializer;
 
 import java.util.Date;
