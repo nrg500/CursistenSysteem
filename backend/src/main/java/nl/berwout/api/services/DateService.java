@@ -24,7 +24,7 @@ public class DateService {
         return result;
     }
 
-    public boolean dateInCurrentYear(Date date, int year){
+    public boolean dateInYear(Date date, int year){
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return year == cal.get(Calendar.YEAR);

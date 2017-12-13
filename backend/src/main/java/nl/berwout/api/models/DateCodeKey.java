@@ -2,6 +2,9 @@ package nl.berwout.api.models;
 
 import java.util.Date;
 
+/**
+ * used to make storing into a map and removing duplicates possible. (in TextFileParser)
+ */
 public class DateCodeKey {
     private Date date;
     private String courseCode;

@@ -4,8 +4,6 @@ import nl.berwout.api.exceptions.InvalidFileFormatException;
 import nl.berwout.api.models.CourseInstance;
 import nl.berwout.api.services.TextFileParser;
 import org.junit.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -15,7 +13,6 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
-@SpringBootTest
 public class TextFileParserTest {
 
     private TextFileParser textFileParser = new TextFileParser();

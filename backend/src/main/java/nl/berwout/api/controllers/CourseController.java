@@ -36,7 +36,7 @@ public class CourseController {
             throw new InvalidInputException("De week moet tussen de 1 en 54 liggen.");
         }
         Date[] dates = dateService.getWeekStartAndEnd(year, week);
-        if((!dateService.dateInCurrentYear(dates[0], year)) && (!dateService.dateInCurrentYear(dates[1], year))){
+        if((!dateService.dateInYear(dates[0], year)) && (!dateService.dateInYear(dates[1], year))){
             throw new InvalidInputException("De week moet in het huidige jaar vallen.");
         }
         return new ResponseEntity<>(courseInstanceRepository.findByStartDateBetween(dates[0], dates[1]), HttpStatus.OK);

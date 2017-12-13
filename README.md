@@ -53,6 +53,15 @@ navigeer vervolgens naar de backend folder en doe een `mvn spring-boot:run`
 
 De applicatie draait nu op localhost:8080
 
+### Selenium testen
+Om de selenium testen uit te kunnen voeren, download de chrome driver van
+
+https://sites.google.com/a/chromium.org/chromedriver/
+
+De applicatie verwacht de chrome driver in je home folder onder downloads/chromedriver.exe
+
+Draai de UI testen door de FeatureTestRunner te starten
+
 ### Overige opmerkingen
 Voordat de applicatie gebruikt gaat worden, moet eerst ook nog Angular in de production mode gezet worden, zie:
 

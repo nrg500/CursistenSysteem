@@ -54,7 +54,7 @@ public class ViewCourseInstancesSteps extends SpringIntegrationTest {
 
     @Given("^the client has an open browser window$")
     public void theClientHasAnOpenBrowserWindow() throws Throwable {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\BerwoutV\\Downloads\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", System.getProperty("user.home") + "\\Downloads\\chromedriver.exe");
         driver = new ChromeDriver();
     }
 
@@ -72,6 +72,7 @@ public class ViewCourseInstancesSteps extends SpringIntegrationTest {
                 .until(ExpectedConditions.presenceOfElementLocated(By.className("course-instance")));
         List<WebElement> courses = driver.findElements(By.className("course-instance"));
         assertThat(courses.size(), is(equalTo(3)));
+        driver.quit();
     }
 
 }

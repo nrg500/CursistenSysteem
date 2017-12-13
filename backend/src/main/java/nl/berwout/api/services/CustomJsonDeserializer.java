@@ -11,6 +11,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * used for deserializing dates sent to us in dd/MM/yyyy format
+ */
 @Component
 public class CustomJsonDeserializer extends JsonDeserializer<Date> {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

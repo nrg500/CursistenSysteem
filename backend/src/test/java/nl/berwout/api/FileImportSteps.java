@@ -1,5 +1,6 @@
 package nl.berwout.api;
 
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -28,8 +29,8 @@ public class FileImportSteps extends SpringIntegrationTest {
 
     @Given("^the client is on the import file page$")
     public void theClientIsOnTheImportFilePage() throws Throwable {
-        String baseUrl = "http://localhost:" + port;
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\BerwoutV\\Downloads\\chromedriver.exe");
+        String baseUrl = "http://localhost:" + port + "/import-file";
+        System.setProperty("webdriver.chrome.driver", System.getProperty("user.home") + "\\Downloads\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.get(baseUrl);
     }
@@ -41,6 +42,15 @@ public class FileImportSteps extends SpringIntegrationTest {
         ClassLoader classLoader = getClass().getClassLoader();
         Path p = Paths.get(classLoader.getResource("GoedVoorbeeld.txt").toURI());
         fileInput.sendKeys(p.toAbsolutePath().toString());
+    }
+
+    @When("^the client fills in a correct start and enddate$")
+    public void theClientFillsInACorrectStartAndEnddate() throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        WebElement startDatePicker = driver.findElement(By.id("startDate"));
+        startDatePicker.sendKeys("17/10/2013");
+        WebElement endDatePicker = driver.findElement(By.id("endDate"));
+        endDatePicker.sendKeys("27/10/2013");
     }
 
     @And("^the client clicks submit$")
@@ -55,7 +65,7 @@ public class FileImportSteps extends SpringIntegrationTest {
         // Write code here that turns the phrase above into concrete actions
         WebElement successMessage = new WebDriverWait(driver, 20)
                 .until(ExpectedConditions.presenceOfElementLocated(By.className("alert-success")));
-        assertThat(successMessage.getText(), equalTo("Er zijn 4 cursusinstanties toegevoegd. Daarnaast zijn er 1 duplicaten gevonden."));
+        assertThat(successMessage.getText(), equalTo("Er zijn 3 cursusinstanties toegevoegd. Daarnaast zijn er 2 genegeerd, omdat ze dubbel waren of buiten de aangegeven tijdstippen vielen."));
         driver.quit();
     }
 
@@ -77,4 +87,6 @@ public class FileImportSteps extends SpringIntegrationTest {
         System.out.println(failMessage.getText());
         driver.quit();
     }
+
+
 }

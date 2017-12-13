@@ -32,7 +32,12 @@ public class TextFileParser {
         this.predicateList.add(newLine);
     }
 
-
+    /**
+     * parses a text into CourseInstance list based on predicates defined above.
+     * @param toParse text to parse
+     * @return list of parsed CourseInstances
+     * @throws InvalidFileFormatException if the parsing goes wrong, display a message containing the line number
+     */
     public List<CourseInstance> parse(String toParse) throws InvalidFileFormatException{
         ArrayList<CourseInstance> result = new ArrayList<>();
         if(fileIsValid(toParse)){
