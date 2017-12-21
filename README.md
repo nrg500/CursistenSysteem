@@ -66,5 +66,3 @@ Draai de UI testen door de FeatureTestRunner te starten
 Voordat de applicatie gebruikt gaat worden, moet eerst ook nog Angular in de production mode gezet worden, zie:
 
 https://stackoverflow.com/questions/35721206/how-to-enable-production-mode-in-angular-2
-
-De applicatie draait nu op localhost:8080
